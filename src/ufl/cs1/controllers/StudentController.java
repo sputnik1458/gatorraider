@@ -4,6 +4,7 @@ package ufl.cs1.controllers;
 import game.controllers.DefenderController;
 import game.models.Defender;
 import game.models.Game;
+import game.models.Node;
 
 import java.util.List;
 
@@ -30,26 +31,22 @@ public final class StudentController implements DefenderController {
 			else
 				actions[i] = -1;
 				*/
+			Node n = game.getAttacker().getLocation();
 			int attackerX = game.getAttacker().getLocation().getX();
 			int attackerY = game.getAttacker().getLocation().getY();
 			int defenderX = defender.getLocation().getX();
 			int defenderY = defender.getLocation().getY();
-			if (possibleDirs.size() != 0) {
-				if (attackerX >= defenderX)
-					actions[i] = 1;
 
-				/*else if (attackerX <= defenderX)
-					actions[i] = 3;
-					*/
-				else if (attackerY >= defenderY)
-					actions[i] = 0;
-				/*else if (attackerY <= defenderY)
-					actions[i] = 2;
-					*/
+			if (possibleDirs.size() != 0) {
+				actions[i] = defender.getNextDir(n, true);
+
+
+				}
+
 			}
 
 
-		}
+
 		return actions;
 	}
 }
