@@ -13,7 +13,7 @@ public class _Attacker extends _Actor implements Attacker
     public Actor getTargetActor(List<? extends Actor> targets, boolean nearest) { return getTargetActor(targets, nearest, true); }
     public Node getTargetNode(List<Node> targets, boolean nearest) { return getTargetNode(targets, nearest, true); }
 
-    protected _Attacker(_Node location, int direction)
+    public _Attacker(_Node location, int direction)
     {
         super(location, direction);
     }
