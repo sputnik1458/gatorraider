@@ -37,8 +37,10 @@ public final class StudentController implements DefenderController {
 			int defenderX = defender.getLocation().getX();
 			int defenderY = defender.getLocation().getY();
 
+			boolean approach = defender.isVulnerable();
+
 			if (possibleDirs.size() != 0) {
-				actions[i] = defender.getNextDir(n, true);
+				actions[i] = defender.getNextDir(n, !approach);
 
 
 				}
