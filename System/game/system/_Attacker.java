@@ -1,4 +1,3 @@
-
 package game.system;
 import game.models.Actor;
 import game.models.Attacker;
@@ -14,7 +13,7 @@ public class _Attacker extends _Actor implements Attacker
     public Actor getTargetActor(List<? extends Actor> targets, boolean nearest) { return getTargetActor(targets, nearest, true); }
     public Node getTargetNode(List<Node> targets, boolean nearest) { return getTargetNode(targets, nearest, true); }
 
-    public _Attacker(_Node location, int direction)
+    protected _Attacker(_Node location, int direction)
     {
         super(location, direction);
     }
