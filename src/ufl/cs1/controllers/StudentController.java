@@ -22,7 +22,8 @@ public final class StudentController implements DefenderController {
 
     int[] moves = {0, 1, 2, 3}; // up right down left
 
-    List<Node> scatterLoc;
+    int x = 0;
+
 
 
     public void init(Game game) {
@@ -37,10 +38,6 @@ public final class StudentController implements DefenderController {
         int[] actions = new int[Game.NUM_DEFENDER];
         List<Defender> enemies = game.getDefenders();
         List<Node> powerPills = game.getPowerPillList();
-
-        if (powerPills.size() == 4) {
-            scatterLoc = powerPills;
-        }
 
 
 
@@ -91,7 +88,7 @@ public final class StudentController implements DefenderController {
                         actions[i] = yint(n, approach, defender, powerPills);
                         break;
                     case 3:
-                        actions[i] = xint(n, approach, defender, powerPills);
+                        actions[i] = protect(n, approach, defender, powerPills);
                         break;
                 }
 //					actions[i] = defender.getNextDir(n, !approach);
@@ -101,11 +98,11 @@ public final class StudentController implements DefenderController {
         return actions;
     }
 
-    public int chase(Node n, boolean a, Defender defender) {
+    private int chase(Node n, boolean a, Defender defender) {
         return defender.getNextDir(n, a);
     }
 
-    public int xint(Node n, boolean a, Defender defender, List<Node> powerPills) {
+    private int xint(Node n, boolean a, Defender defender, List<Node> powerPills) {
 
         for (Node powerPill : powerPills) {
             if (n.getPathDistance(powerPill) < 20) {
@@ -138,7 +135,7 @@ public final class StudentController implements DefenderController {
 
     }
 
-    public int yint(Node n, boolean a, Defender defender, List<Node> powerPills) {
+    private int yint(Node n, boolean a, Defender defender, List<Node> powerPills) {
         for (Node powerPill : powerPills) {
             if (n.getPathDistance(powerPill) < 10) {
                 return defender.getNextDir(n, false);
@@ -159,13 +156,45 @@ public final class StudentController implements DefenderController {
             try {
                 if (a) {
                     Node threeDown = n.getNeighbor(2).getNeighbor(2).getNeighbor(2);
-                    return defender.getNextDir(threeDown, !a);
+                    return defender.getNextDir(threeDown, a);
                 } else {
                     return defender.getNextDir(n, a);
                 }
             } catch (NullPointerException e) {
-                return defender.getNextDir(n, !a);
+                return defender.getNextDir(n, a);
             }
         }
+    }
+
+    private int protect(Node n, boolean a, Defender defender, List<Node> powerPills) {
+        for (Node powerPill : powerPills) {
+            if (n.getPathDistance(powerPill) < 20) {
+                return defender.getNextDir(n, false);
+            }
+        }
+        if (a){
+            if (n.getPathDistance(defender.getLocation()) < 10) {
+                return chase(n, a, defender);
+            } else {
+                switch (x) {
+                    case 0:
+                        x++;
+                        return x - 1;
+                    case 1:
+                        x++;
+                        return x - 1;
+                    case 2:
+                        x++;
+                        return x - 1;
+                    case 3:
+                        x = 0;
+                        return 3;
+
+                }
+            }
+        } else {
+            return defender.getNextDir(n, a);
+        }
+        return -1;
     }
 }
